@@ -35,6 +35,9 @@ export default function VerificationEmail({ username, otp }
                 <Preview>Here&apos;s your verification code: {otp}</Preview>
                 <Section>
                     <Row>
+                        <Heading as="h2" > Hello {username}, </Heading>
+                    </Row>
+                    <Row>
                         <Text>
                             Thank you for registering. Please use the following verification code to complete your registration:
                         </Text>

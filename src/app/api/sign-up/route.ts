@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs"
 
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
-export async function POST(request: Request){      // 'request' er datatype 'Request'...
+export async function POST(request: Request){      // 'request' er datatype 'Request' and ai 'Request' nextjs thekei ase...
     await dbConnect()
 
     try {
@@ -43,7 +43,7 @@ export async function POST(request: Request){      // 'request' er datatype 'Req
         } else {
             const hashedPassword = await bcrypt.hash(password, 10)
 
-            const expirydate = new Date()          // 📌 ekhane ai 'expirydate' akta object, so object er age let/const jai hok na kano, object memory er moddhe puro akta reference point(a area) oi area re inside a value change hote thake, so tai porer line a amra 'expirydate' a const thaka sotteo modify korte par6i... 
+            const expirydate = new Date()          // 📌 ekhane ai 'expirydate' akta object, so object er age let/const jai hok na kano, object memory er moddhe puro akta reference point(a area) oi area re inside a value change hote thake, so tai porer line a amra 'expirydate' a 'const' thaka sotteo modify korte par6i... 
             expirydate.setHours(expirydate.getHours() + 1)
 
             const newUser = new UserModel({
@@ -53,7 +53,7 @@ export async function POST(request: Request){      // 'request' er datatype 'Req
                 verifyCode,
                 verifyCodeExpiry: expirydate,
                 isVerified: false,
-                isAcceptingMessage: true.valueOf,
+                isAcceptingMessage: true,
                 messages: [] 
             })
 
@@ -77,7 +77,7 @@ export async function POST(request: Request){      // 'request' er datatype 'Req
         return Response.json({
             success: true,
             message: "User registered successfully. Please verify your email"
-        }, {status: 200})
+        }, {status: 201})
 
     } catch (error) {
         console.error("Error registering user", error)

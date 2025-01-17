@@ -6,7 +6,7 @@ type ConnectionObject = {
 
 const connection: ConnectionObject = {}
 
-async function dbConnect(): Promise<void> {        //➡️ db kichu return korbe, so ata akta Promise return korbe, and ai promise er inside er ki value a6e ta niye amar kono headche nei so 'void' likhbo...  
+async function dbConnect(): Promise<void> {        //➡️ db kichu return korbe, so ata akta Promise return korbe, and ai promise er inside er ki value a6e ta niye amar kono headache nei so 'void' likhbo...  
     if (connection.isConnected) {
         console.log("Already Connected to database")
         return
