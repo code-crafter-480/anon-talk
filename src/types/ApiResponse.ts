@@ -5,7 +5,7 @@ import { Message } from "@/model/User"
 export interface ApiResponse {
     success: boolean;
     message: string;
-    isAccesptingMessages?: boolean ;               // sign-up er somoy ami chaibo na ai gulo pathate...
+    isAcceptingMessage?: boolean ;               // sign-up er somoy ami chaibo na ai gulo pathate...
     messages?: Array<Message>
 
 }
