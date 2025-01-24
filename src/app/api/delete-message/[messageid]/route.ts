@@ -55,7 +55,7 @@ export async function DELETE(request: Request, {params}:{params: {messageid: str
         return Response.json(
             {
                 success: true,
-                message: "Message Deleted"
+                message: "Message Deleted Successfully"
             }, 
             { status: 200 }
         )
@@ -70,7 +70,4 @@ export async function DELETE(request: Request, {params}:{params: {messageid: str
             { status: 500 }
         )
     }
-
-    
-
 }

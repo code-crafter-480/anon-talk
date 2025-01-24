@@ -26,7 +26,7 @@ const page = () => {
   const [isCheckingUsername, setIsCheckcingUsername] = useState(false)    // amader akta loder field o lagbe, mane jokhon jokhon amra request pathabo backend tokhon ai process er somoy amra aktu loding state dekhate chaibo, so ai state ke manage korte akta state lagbe...
   const [isSubmitting, setIsSubmitting] = useState(false)       // ekhaneo akdhoroner loder use kora jete pare...
 
-  const debounced = useDebounceCallback (setUsername, 300)       // so ami je api request fire korbo backend a seta ai 'debounced' er basis a korbo...
+  const debounced = useDebounceCallback (setUsername, 400)       // so ami je api request fire korbo backend a seta ai 'debounced' er basis a korbo...
   const { toast } = useToast()
   const router = useRouter()
 
@@ -123,13 +123,10 @@ const page = () => {
                      }}
                      />
                   </FormControl>
-                  { isCheckingUsername && <Loader2 className="animate-spin"/> }  
+                  { isCheckingUsername && <Loader2 className="animate-spin"/> }
                   <p className={`text-sm ${usernameMessage === "Username is unique" ? 'text-green-500' : 'text-red-500'}`}>
-                    test {usernameMessage}
+                    {username} {usernameMessage}
                   </p>
-                  {/* <FormDescription>
-                    This is your public display name.
-                  </FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
@@ -177,7 +174,7 @@ const page = () => {
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
                   </>
-                ) : ("Signup")
+                ) : ("Sign up")
               }
             </Button>
           </form>

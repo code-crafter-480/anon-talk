@@ -10,7 +10,7 @@ import { Button } from './ui/button'
 const Navbar = () => {
     const {data: session} = useSession()
 
-    const user: User = session?.user as User  // ekhane 'as User' type dewa ke assertion bole...     // 'session' er moddhe thekei 'user' pabo, It is also defined in next-auth.js official document
+    const user: User = session?.user as User      // ekhane 'as User' type dewa ke assertion bole...     // 'session' er moddhe thekei 'user' pabo, It is also defined in next-auth.js official document
 
   return (
     <nav className='p-4 md:p-6 shadow-md'>
@@ -23,9 +23,15 @@ const Navbar = () => {
                         <Button className='w-full md:w-auto' onClick={ () => signOut() }>Logout</Button>
                    </>
                 ) : (
-                    <Link href='/sign-in'>
-                        <Button className='w-full md:w-auto'>Login</Button>
-                    </Link>
+                    <div className='flex justify-end'>
+                        <Link href='/sign-in'>
+                            <Button className='w-full md:w-auto mr-4'>Login</Button>
+                        </Link>
+
+                        <Link href='/sign-up'>
+                            <Button className='w-full md:w-auto'>Sign-up</Button>
+                        </Link>
+                    </div>
                 )
             }
         </div>

@@ -25,7 +25,7 @@ export interface User extends Document{
     verifyCode: string;
     verifyCodeExpiry: Date;
     isVerified: boolean;
-    isAcceptingMessage: boolean;
+    isAcceptingMessages: boolean;
     messages: Message[] 
 }
 
@@ -58,13 +58,21 @@ const UserSchema: Schema<User> = new Schema({
         type: Boolean,
         default: false
     }, 
-    isAcceptingMessage: {
+    isAcceptingMessages: {
         type: Boolean,
         default: true
     }, 
     messages: [MessageSchema]
 })
  
-const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema)
+const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema)     // In last '<User>' this is for typesafety...
 
 export default UserModel
+
+/*
+🔖 This line of code is setting up a Mongoose model for a 'User' collection, but it does so in a way that checks if the model already exists before creating it. Here's a simple breakdown:
+    ➡️ 'mongoose.models.User':  This checks if a 'User' model is already defined in Mongoose's internal models cache. If it exists, it will be used.
+    ➡️ 'as mongoose.Model<User>':  This part is a TypeScript type assertion, ensuring that 'mongoose.models.User' is treated as a Mongoose model of type 'User'.
+    ➡️ '||':  This is a logical OR operator. If 'mongoose.models.User' is 'undefined' (i.e., the model hasn't been defined yet), the code will proceed to the right side.
+    ➡️ 'mongoose.model<User>("User", UserSchema)':  This creates a new 'User' model using the 'UserSchema' if it doesn't already exist.
+*/

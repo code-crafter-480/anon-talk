@@ -53,7 +53,7 @@ export async function POST(request: Request){      // 'request' er datatype 'Req
                 verifyCode,
                 verifyCodeExpiry: expirydate,
                 isVerified: false,
-                isAcceptingMessage: true,
+                isAcceptingMessages: true,
                 messages: [] 
             })
 
@@ -79,7 +79,7 @@ export async function POST(request: Request){      // 'request' er datatype 'Req
             message: "User registered successfully. Please verify your email"
         }, {status: 201})
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error registering user", error)
         return Response.json(
             {

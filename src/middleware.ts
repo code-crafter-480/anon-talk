@@ -6,6 +6,8 @@ import { getToken } from 'next-auth/jwt'
 export async function middleware(request: NextRequest) {
 
     const token = await getToken({req: request})         // 'req' er type ho66e 'request' ...
+    // console.log("In middleware req is: ", request)
+    // console.log("In middleware token is: ", token)
     const url = request.nextUrl          // It is a special URL object that represents the parsed URL of the incoming request. or get the current URL...
 
     if (token && 
@@ -13,11 +15,12 @@ export async function middleware(request: NextRequest) {
             url.pathname.startsWith("/sign-in") ||
             url.pathname.startsWith("/sign-up") || 
             url.pathname.startsWith("/verify") || 
-            url.pathname.startsWith("/")
+            // url.pathname.startsWith("/")
+            url.pathname === '/'
         ) 
     ) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
+    } 
     if (!token && url.pathname.startsWith('/dashboard')){
         // return NextResponse.redirect(new URL('/home', request.url))
         return NextResponse.redirect(new URL('/sign-in', request.url))

@@ -77,3 +77,44 @@ export const authOptions: NextAuthOptions = {          // ekhane 'authOptions' e
     }, 
     secret: process.env.NEXTAUTH_SECRET              // ai somosto kaj ai 'secret' key er upor dependent...
 }
+
+
+
+/*  📌📌📌📌📌
+
+Let's break down the authOptions configuration for NextAuth, a popular authentication library for Next.js. This configuration manages how authentication is handled, including providers, callbacks, and session handling.
+
+Explanation:
+    (1️⃣)authOptions (Type: NextAuthOptions):
+        This is the main configuration object for NextAuth.
+
+    (2️⃣)providers:
+        CredentialsProvider:
+            🟢 This allows custom username/password login (non-OAuth).
+            🟢 id & name: Unique identifiers for the provider.
+            🟢 credentials: Defines the fields required for the login form (email and password).
+            🟢 authorize function:
+                ➡️ Custom logic for authenticating users.
+                ➡️ Connects to the database (dbConnect).
+                ➡️ Searches for the user by email or username.
+                ➡️ Checks if the account is verified and the password is correct.
+                ➡️ If successful, returns the user; otherwise, throws errors.
+    (3️⃣) callbacks:
+        Functions to control the behavior of NextAuth.
+
+        🟢 jwt:
+            ➡️ Runs when a token is created or updated.
+            ➡️ Adds custom fields (_id, isVerified, isAcceptingMessages, username) to the token.
+            ➡️ These fields are not part of the default NextAuth user, so you need to define them explicitly in TypeScript.
+        🟢 session:
+            ➡️ Called whenever a session is checked.
+            ➡️ Adds custom fields from the token to the session (_id, isVerified, isAcceptingMessages, username).
+            ➡️ This allows you to access more user-specific data in the session without additional database queries.
+    (4️⃣) pages:
+         ➡️ signIn: Specifies the custom sign-in page (/sign-in).
+    (5️⃣) session:
+         ➡️ strategy: "jwt": Uses JSON Web Tokens (JWT) for sessions instead of database sessions. This makes the app stateless.
+    (7️⃣) secret:
+         ➡️ A secret key for encrypting JWT. This should be a secure value (e.g., from process.env.NEXTAUTH_SECRET).
+
+*/

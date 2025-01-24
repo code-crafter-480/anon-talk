@@ -14,7 +14,7 @@ async function dbConnect(): Promise<void> {        //➡️ db kichu return korb
 
     try {
         const db = await mongoose.connect(process.env.MONGODB_URI || '', {})         // Connection er sathe amra aro option send korte pari ai object a...
-
+        // console.log("db connection: ", db.connections)
         connection.isConnected = db.connections[0].readyState
 
         console.log("DB Connected Successfully")

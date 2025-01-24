@@ -13,6 +13,8 @@ export async function GET(request: Request) {
     const user: User = session?.user as User
 
     if (!session || !session.user) {
+        console.log("Under '!session || !session.user' this line...")
+
         return Response.json(
             {
                 success: false,
@@ -31,14 +33,17 @@ export async function GET(request: Request) {
         // 📌 Now ekhane amader aggeregation pipeline apply korte hobe, so ekhane amake multiple 'user' create korte hobe, But why we are applying this --> jehetu amader ka6e aktai message array a6e and otai return korte hobe so ekhane problem ho66e jodi amader 5-10k messages hole amra aivabe puro akta array return korte chaibo na, so akhane aggregation pipeline use korbo...
         const user = await UserModel.aggregate([
 
-            { $match: {id: userId }},         // 📌 Ai vabe jotogulo pipeline chalano dorkar totogulo chalabo... So now ata korar por amader array ke 'unwind' korte hobe ( 🖼️ See 'Pic_3_unwind' )... ai 'unwind' pipeline array er jonno lage, ata array ke open kore debe, mane multiple objects create kore debe... so ata korar fole ami sort korte parbo...
+            { $match: { _id: userId }},         // 📌 Ai vabe jotogulo pipeline chalano dorkar totogulo chalabo... So now ata korar por amader array ke 'unwind' korte hobe ( 🖼️ See 'Pic_3_unwind' )... ai 'unwind' pipeline array er jonno lage, ata array ke open kore debe, mane multiple objects create kore debe... so ata korar fole ami sort korte parbo...
             { $unwind: '$messages' },          // ➡️ akhane 'unwind' amader 'messages' parameter er upor lagate hobe, and jokhoni amra mongodb er internel parameter use kori tokhon direct ai vabe likhte parbo...Now amra sorting korbo...
-            { $sort: {'messages.createdAt': -1} },       // ➡️ -1: This indicates sorting in descending order (i.e., from newest to oldest)...Now my documents are still scattered, So now we group them...
-            { $group: { _id: '$_id', messages: {$push: '$messages'} } }
+            { $sort: { 'messages.createdAt': -1 } },       // ➡️ -1: This indicates sorting in descending order (i.e., from newest to oldest)...Now my documents are still scattered, So now we group them...
+            { $group: { _id: '$_id', messages: { $push: '$messages' } } },
 
         ])
+        console.log("user in get-messages: ", user )
+        console.log("user in get-messages2: ", user.length )
 
-        if (!user || user.length === 0) {
+        if (!user) {
+            console.log("Under '!user...")
             return Response.json(
                 {
                     success: false,
@@ -49,11 +54,24 @@ export async function GET(request: Request) {
                 }
             )
         }
-
+        if (user.length === 0) {
+            console.log("user.length === 0' this line...")
+            return Response.json(
+                {
+                    success: true,
+                    message: "No Messages Available"
+                },
+                {
+                    status: 200
+                }
+            )
+        }
+    console.log("user data in get-messages: ", user[0])
         // 📌📌📌
         return Response.json(
             {
                 success: true,
+                message: "Message 555",
                 messages: user[0].messages      // ➡️ aggregation pipeline er return type a amra array pai... so array er first object theke messages ke bere kore diye dao...
             },
             {
@@ -61,13 +79,12 @@ export async function GET(request: Request) {
             }
         )
 
-
     } catch (error) {
         console.log("An unexpected error occured: ", error)
         return Response.json(
             {
                 success: false,
-                message: "Not authenticated"
+                message: "Error while fetching messages"
             },
             {
                 status: 500

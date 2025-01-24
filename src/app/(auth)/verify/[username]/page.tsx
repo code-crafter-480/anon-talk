@@ -8,7 +8,7 @@ import { verifySchema } from '@/schemas/verifySchema'
 import { ApiResponse } from '@/types/ApiResponse'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios, { AxiosError } from 'axios'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'     // 'useParams' --> A Client Component hook that lets you read a route's dynamic params filled in by the current URL...
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from "zod"
@@ -31,13 +31,15 @@ const VerifyAccount = () => {
                 username: params.username,
                 code: data.code
             })
+            console.log("verify-username: ",response)
 
-            toast({
-                title: "Success",
-                description: response.data.message
-            })
-
-            router.replace('sign-in')
+            if (response.data?.success) {
+                toast({
+                    title: "verified successfully",
+                    description: response.data?.message
+                })
+                router.replace('/sign-in')
+            }
 
         } catch (error) {
             console.error("Error in signup of user", error)
@@ -70,7 +72,7 @@ const VerifyAccount = () => {
                                 <FormItem>
                                     <FormLabel>Verification Code</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="code" {...field} />
+                                        <Input autoComplete='off' placeholder="code" {...field} />
                                     </FormControl>
                                     {/* <FormDescription>
                                         This is your public display name.
@@ -82,7 +84,6 @@ const VerifyAccount = () => {
                         <Button type="submit">Submit</Button>
                     </form>
                 </Form>
-
             </div>
         </div>
     )

@@ -32,6 +32,8 @@ const page = () => {
   })
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+    console.log("first")
+    console.log("under first : ",data)
     const result = await signIn('credentials', {
       redirect: false,
       identifier: data.identifier,
@@ -45,6 +47,7 @@ const page = () => {
         description: "Incorrect username or password",
         variant: 'destructive'
       })
+      return; 
     }
 
     if(result?.url) {
@@ -104,18 +107,19 @@ const page = () => {
               )}
             />
             <Button type="submit">     {/* ekhane compulsory 'type="submit" e likhte hobe, noito submit work korbe na */}
-              Signin
+              Sign in
             </Button>
           </form>
         </Form>
 
         <div className="text-center mt-4">
-          <p>
-              Already a member?{' '}
-              <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">Sign in</Link>
-          </p>
+            <p>
+                Don't have a account?{' '}
+                <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
+                    Sign up
+                </Link>
+            </p>
         </div>
-
       </div>
     </div>
   )

@@ -1,7 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { Message } from "@/model/User";
-import { cookies } from "next/headers";
 
 
 export async function POST(request: Request) {
@@ -10,7 +9,7 @@ export async function POST(request: Request) {
     // Ai project a message je keu pathate pare so ata check korar dorkar nei je apni loggedIn achen kina...
     const {username, content} = await request.json()
     try {
-        const user = await UserModel.findOne({username})
+        const user = await UserModel.findOne({username: username})
         if (!user) {
             return Response.json(
                 {
@@ -24,7 +23,7 @@ export async function POST(request: Request) {
         }
 
         // is user accepting the messages ?
-        if (!user.isAcceptingMessage) {
+        if (!user.isAcceptingMessages) {
             return Response.json(
                 {
                     success: false,
